@@ -18,6 +18,10 @@ io.on("connection", (socket) => {
 		io.emit("send message", message);
 	});
 
+	socket.on("send location", (location) => {
+		socket.broadcast.emit("send location", location);
+	});
+
 	socket.on("disconnect", () => {
 		socket.broadcast.emit("message", `A user has left the room!`);
 	});
