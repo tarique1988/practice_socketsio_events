@@ -14,15 +14,17 @@ io.on("connection", (socket) => {
 	console.log(`Connection established with user: ${socket.id}`);
 	socket.emit("message", "Welcome!");
 	socket.broadcast.emit("message", "A new user has joined the room!");
-	socket.on("send message", (message) => {
+	socket.on("send message", (message, callback) => {
 		io.emit("message", message);
+		callback();
 	});
 
-	socket.on("send location", (location) => {
+	socket.on("send location", (location, callback) => {
 		socket.broadcast.emit(
 			"message",
 			`https://www.google.com/maps?q=${location.latitude},${location.longitude}`
 		);
+		callback();
 	});
 
 	socket.on("disconnect", () => {
