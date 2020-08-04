@@ -13,9 +13,13 @@ const io = new SocketIO(server);
 io.on("connection", (socket) => {
 	console.log(`Connection established with user: ${socket.id}`);
 	socket.emit("message", "Welcome!");
-
+	socket.broadcast.emit("message", "A new user has joined the room!");
 	socket.on("send message", (message) => {
 		io.emit("send message", message);
+	});
+
+	socket.on("disconnect", () => {
+		socket.broadcast.emit("message", `A user has left the room!`);
 	});
 });
 
