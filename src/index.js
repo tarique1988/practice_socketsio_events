@@ -16,7 +16,7 @@ io.on("connection", (socket) => {
 	socket.broadcast.emit("message", "A new user has joined the room!");
 	socket.on("send message", (message, callback) => {
 		io.emit("message", message);
-		callback();
+		callback(`Message delivered.`);
 	});
 
 	socket.on("send location", (location, callback) => {
@@ -24,7 +24,7 @@ io.on("connection", (socket) => {
 			"message",
 			`https://www.google.com/maps?q=${location.latitude},${location.longitude}`
 		);
-		callback();
+		callback(`Location delivered.`);
 	});
 
 	socket.on("disconnect", () => {

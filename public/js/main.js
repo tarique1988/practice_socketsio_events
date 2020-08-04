@@ -8,15 +8,15 @@ socket.on("message", (message) => {
 
 messageInput.addEventListener("keypress", (e) => {
 	if (e.key === "Enter") {
-		socket.emit("send message", messageInput.value, () => {
-			console.log(`Message delivered.`);
+		socket.emit("send message", messageInput.value, (message) => {
+			console.log(`${message}`);
 		});
 	}
 });
 submitBtn.addEventListener("click", (e) => {
 	e.preventDefault();
-	socket.emit("send message", `${messageInput.value}`, () => {
-		console.log(`Message delivered.`);
+	socket.emit("send message", `${messageInput.value}`, (message) => {
+		console.log(`${message}`);
 	});
 });
 
@@ -26,8 +26,8 @@ sendLocationBtn.addEventListener("click", (e) => {
 
 	navigator.geolocation.getCurrentPosition((position) => {
 		const { latitude, longitude } = position.coords;
-		socket.emit("send location", { latitude, longitude }, () => {
-			console.log(`Location delivered.`);
+		socket.emit("send location", { latitude, longitude }, (message) => {
+			console.log(`${message}`);
 		});
 	});
 });
