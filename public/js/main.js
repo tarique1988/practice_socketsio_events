@@ -6,14 +6,6 @@ socket.on("message", (message) => {
 	console.log(message);
 });
 
-socket.on("send message", (message) => {
-	console.log(`Received from server, ${message}`);
-});
-
-socket.on("send location", (location) => {
-	console.log(location);
-});
-
 messageInput.addEventListener("keypress", (e) => {
 	if (e.key === "Enter") {
 		socket.emit("send message", messageInput.value);
@@ -30,7 +22,6 @@ sendLocationBtn.addEventListener("click", (e) => {
 
 	navigator.geolocation.getCurrentPosition((position) => {
 		const { latitude, longitude } = position.coords;
-		const { timestamp } = position;
-		socket.emit("send location", { latitude, longitude, timestamp });
+		socket.emit("send location", { latitude, longitude });
 	});
 });

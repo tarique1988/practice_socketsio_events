@@ -15,11 +15,14 @@ io.on("connection", (socket) => {
 	socket.emit("message", "Welcome!");
 	socket.broadcast.emit("message", "A new user has joined the room!");
 	socket.on("send message", (message) => {
-		io.emit("send message", message);
+		io.emit("message", message);
 	});
 
 	socket.on("send location", (location) => {
-		socket.broadcast.emit("send location", location);
+		socket.broadcast.emit(
+			"message",
+			`Location: ${location.longitude}, ${location.latitude}`
+		);
 	});
 
 	socket.on("disconnect", () => {
