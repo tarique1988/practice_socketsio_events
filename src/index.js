@@ -21,7 +21,7 @@ io.on("connection", (socket) => {
 	socket.on("send location", (location) => {
 		socket.broadcast.emit(
 			"message",
-			`Location: ${location.longitude}, ${location.latitude}`
+			`Location: ${location.latitude}, ${location.longitude}`
 		);
 	});
 
