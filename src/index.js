@@ -13,6 +13,10 @@ const io = new SocketIO(server);
 io.on("connection", (socket) => {
 	console.log(`Connection established with user: ${socket.id}`);
 	socket.emit("message", "Welcome!");
+
+	socket.on("send message", (message) => {
+		io.emit("send message", message);
+	});
 });
 
 server.listen(3000, () => {
