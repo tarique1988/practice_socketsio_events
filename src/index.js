@@ -2,6 +2,7 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 const SocketIO = require("socket.io");
+const { generateMessage, generateLocationMessage } = require("./utils/message");
 
 const app = express();
 app.use(express.static(path.join(__dirname, "../public")));
@@ -12,23 +13,23 @@ const io = new SocketIO(server);
 
 io.on("connection", (socket) => {
 	console.log(`Connection established with user: ${socket.id}`);
-	socket.emit("message", "Welcome!");
-	socket.broadcast.emit("message", "A new user has joined the room!");
+	socket.emit("message", generateMessage("Welcome!"));
+	socket.broadcast.emit(
+		"message",
+		generateMessage("A new user has joined the room!")
+	);
 	socket.on("send message", (message, callback) => {
-		io.emit("message", message);
+		io.emit("message", generateMessage(message));
 		callback(`Message delivered.`);
 	});
 
 	socket.on("send location", (location, callback) => {
-		socket.broadcast.emit(
-			"message",
-			`https://www.google.com/maps?q=${location.latitude},${location.longitude}`
-		);
+		io.emit("location message", generateLocationMessage(location));
 		callback(`Location delivered.`);
 	});
 
 	socket.on("disconnect", () => {
-		socket.broadcast.emit("message", `A user has left the room!`);
+		io.emit("message", generateMessage(`A user has left the room!`));
 	});
 });
 
